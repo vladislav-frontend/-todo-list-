@@ -29,6 +29,17 @@
     </nav>
 
     <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mt-4 mb-3">
+          <% flash.each do |name, message| %>
+            <div class="alert alert-<%= name %>">
+              <i class="fab fa-angular"></i>
+              <%= message %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
       <%= yield %>
     </div>
 

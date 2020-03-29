@@ -1,0 +1,27 @@
+ru:
+  common:
+    errors: 'При заполнении формы произошли ошибки'
+    back: 'Назад'
+  posts:
+    index:
+      title: 'Посты'
+    new:
+      title: 'Добавить пост'
+    edit:
+      title: 'Редактировать пост'
+    form:
+      submit:
+        '%{action}'
+  categories:
+    index:
+      title: 'Категории'
+      add: 'Новая категория'
+      edit: 'Редактировать'
+      del: 'Удалить'
+    new:
+      title: 'Добавить категорию'
+    edit:
+      title: 'Редактировать категорию'
+    form:
+      submit:
+        '%{action}'

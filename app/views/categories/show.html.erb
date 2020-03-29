@@ -1,0 +1,13 @@
+<div class="row">
+	<div class="col-12 text-center mt-4 mb-3">
+		<h1><%= @category.name %></h1>
+	</div>
+</div>
+
+<div class="row">
+	<% if @category.posts.empty? %>
+		<h2>Постов нет</h2>
+	<% else %>
+		<%= render @category.posts %>
+	<% end %>
+</div>

@@ -17,9 +17,9 @@ class PostsController < ApplicationController
 		@post = Post.new(post_params)
 
 		if @post.save
-			redirect_to @post
+			redirect_to @post, success: 'Пост успешно добавлен'
 		else
-			render :new
+			render :new, danger: 'Пост не добавлен'
 		end
 	end
 
@@ -28,15 +28,15 @@ class PostsController < ApplicationController
 
 	def update
 		if @post.update_attributes(post_params)
-			redirect_to @post
+			redirect_to @post, success: 'Пост успешно обновлен'
 		else
-			render :edit
+			render :edit, danger: 'Пост не обновлен'
 		end
 	end
 
 	def destroy
 		@post.destroy
-		redirect_to posts_path
+		redirect_to posts_path, success: 'Пост успешно удален'
 	end
 
 	private
@@ -46,6 +46,6 @@ class PostsController < ApplicationController
 	end
 
 	def post_params
-		params.require(:post).permit(:title, :summary, :body)
+		params.require(:post).permit(:title, :summary, :body, :all_tags, :category_id)
 	end
 end

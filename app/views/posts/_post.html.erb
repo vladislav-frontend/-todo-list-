@@ -3,6 +3,9 @@
 		<div class="card-body">
 			<div class="card-title"><%= link_to post.title, post_path(post) %></div>
 			<p class="card-text"><%= post.summary %></p>
+			<div class="card-tags">
+				<%= raw post.tags.map(&:name).map{|t| link_to t, tag_path(t), class: 'badge badge-pill badge-firm'}.join(' ') %>
+			</div>
 			<div class="card-bottom">
 				<p class="card-date"><%= post.created_at.to_date.strftime("%d %B, %Y") %></p>
 				<div>

@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      post: 'Пост'
+    attributes:
+      post:
+        title: 'Название'
+        summary: 'Превью'
+        body: 'Текст'
+        all_tags: 'Теги'
+      category:
+        name: 'Название'
+    errors:
+      messages:
+        blank: 'не может быть пустым'

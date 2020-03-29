@@ -15,6 +15,11 @@
  */
 @import "bootstrap";
 
+.badge-firm {
+    color: #fff;
+    background-color: #5c10ad;
+}
+
 .bg-custom {
     background-color: #470882;
     background-image: -webkit-linear-gradient(right,#c15889 0,#470882 100%);
@@ -40,6 +45,19 @@
 	a {color: #5c10ad;}
 }
 
+.card-tags {
+	margin-bottom: 8px;
+
+	a {
+		margin-right: 4px;
+
+	    &:hover {
+		    color: #fff;
+		    background: #7e32cf;
+	    }
+	}
+}
+
 .card-bottom {
 	display: flex;
 	align-items: center;
@@ -50,5 +68,26 @@
 		color: #aaa;
 
 	    &:last-child {font-size: 20px;}
+	}
+}
+
+.cat-list {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 50px;
+	border-bottom: 1px solid #ccc;
+
+	> div {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		> * {
+			&:first-child {
+				margin-right: 15px;
+			}
+		}
 	}
 }
