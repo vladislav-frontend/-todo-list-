@@ -10,6 +10,9 @@
 	</div>
 	<div class="col-12">
 		<% @categories.each_with_index do |category, index| %>
+			<% category.posts.each do |post| %>
+				<%= link_to post.title, post_path(post) %>
+			<% end %>
 			<div class="cat-list">
 				<%= link_to category.name, category %>
 				<div>
