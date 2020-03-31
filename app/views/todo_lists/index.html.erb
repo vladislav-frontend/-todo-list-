@@ -1,25 +1,41 @@
-<div class="row">
-	<div class="col-12 text-center mt-4 mb-3">
-		<h1>Simple TODO Lists</h1>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-12 text-center mb-3">
-		<%= link_to t('.add'), new_category_path, class: 'btn btn-outline-info' %>
-	</div>
-	<div class="col-12">
-		<% @categories.each_with_index do |category, index| %>
-			<% category.posts.each do |post| %>
-				<%= link_to post.title, post_path(post) %>
-			<% end %>
-			<div class="cat-list">
+<% @categories.each_with_index do |category, index| %>
+	<div class="container app-items">
+		<div class="app-items-title">
+			<div>
+				<i class="fas fa-tasks"></i>
 				<%= link_to category.name, category %>
+			</div>
+			<div>
+				<%= link_to edit_category_path(category), class: 'btn btn-sm' do %>
+					<i class="fas fa-pencil-alt"></i>
+				<% end %>
+				<%= link_to category_path(category), method: :delete, data: {confirm: 'Вы уверены?'}, class: 'btn btn-sm' do %>
+					<i class="far fa-trash-alt"></i>
+				<% end %>
+			</div>
+		</div>
+
+		<div class="app-items-add">
+			<i class="fas fa-plus"></i>
+			<input type="text" name="" placeholder="Start typing here to create a task">
+	        <%= link_to 'Add Task', new_post_path, class: 'btn' %>
+		</div>
+
+		<% category.posts.each do |post| %>
+			<div class="app-items-body">
 				<div>
-					<%= link_to t('.edit'), edit_category_path(category), class: 'btn btn-sm btn-success' %>
-					<%= link_to t('.del'), category_path(category), method: :delete, data: {confirm: 'Вы уверены?'}, class: 'btn btn-sm btn-danger' %>
+					<input type="checkbox" name="">
+					<%= link_to post.title, post_path(post) %>
+				</div>
+				<div>
+					<%= link_to edit_post_path(post), class: 'btn btn-sm' do %>
+					   <i class="fas fa-pencil-alt"></i>
+					<% end %>
+					<%= link_to post_path(post), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-sm' do %>
+						<i class="far fa-trash-alt"></i>
+					<% end %>
 				</div>
 			</div>
 		<% end %>
 	</div>
-</div>
+<% end %>
