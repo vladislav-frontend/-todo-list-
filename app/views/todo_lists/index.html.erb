@@ -1,41 +1,49 @@
-<% @categories.each_with_index do |category, index| %>
-	<div class="container app-items">
-		<div class="app-items-title">
+<% @projects.each_with_index do |project, index| %>
+	<div id="project-<%= project.id %>" class="project">
+		<div class="project-title">
 			<div>
 				<i class="fas fa-tasks"></i>
-				<%= link_to category.name, category %>
+				<div class="d-flex">
+					<input type="text" class="editProjectInput">
+					<button class="btn btn-sm editProjectButton"><i class="fas fa-check"></i></button>
+					<button class="btn btn-sm closeProjectButton"><i class="fas fa-times"></i></button>
+				</div>
+				<span class="projectName"><%= project.name %></span>
 			</div>
 			<div>
-				<%= link_to edit_category_path(category), class: 'btn btn-sm' do %>
-					<i class="fas fa-pencil-alt"></i>
-				<% end %>
-				<%= link_to category_path(category), method: :delete, data: {confirm: 'Вы уверены?'}, class: 'btn btn-sm' do %>
-					<i class="far fa-trash-alt"></i>
-				<% end %>
+		        <button class="btn btn-sm editProject"><i class="fas fa-pencil-alt"></i></button>
+		        <button class="btn btn-sm deleteProject"><i class="far fa-trash-alt"></i></button>
 			</div>
 		</div>
 
-		<div class="app-items-add">
+		<div class="project-add">
 			<i class="fas fa-plus"></i>
-			<input type="text" name="" placeholder="Start typing here to create a task">
-	        <%= link_to 'Add Task', new_post_path, class: 'btn' %>
+			<input type="text" class="addTaskInput" placeholder="Start typing here to create a task">
+	        <button class="addTaskButton" class="btn">Add Task</button>
 		</div>
 
-		<% category.posts.each do |post| %>
-			<div class="app-items-body">
-				<div>
-					<input type="checkbox" name="">
-					<%= link_to post.title, post_path(post) %>
+		<div class="app-items-inner">
+			<% project.tasks.order(position: :asc).each do |task| %>
+				<div id="task-<%= task.id %>" class="project-body <%= 'isnt-time' if task.deadline&.to_date == Date.today %>">
+					<div>
+						<input type="checkbox" class="taskCheckbox" <%= 'checked' if task.checked %>>
+						<div class="d-flex">
+							<input type="text" class="editTaskInput">
+							<button class="btn btn-sm editTaskButton"><i class="fas fa-check"></i></button>
+							<button class="btn btn-sm closeTaskButton"><i class="fas fa-times"></i></button>
+						</div>
+						<span class="taskName <%= 'task-name-checked' if task.checked %>"><%= task.title %></span>
+					</div>
+					<input type="date" class="task-date" value="<%= task.deadline&.to_date %>">
+					<div>
+				        <button class="btn btn-sm dateTask"><i class="far fa-clock"></i></button>
+				        <button class="btn btn-sm upTask"><i class="fas fa-caret-up"></i></button>
+				        <button class="btn btn-sm downTask"><i class="fas fa-caret-down"></i></button>
+				        <button class="btn btn-sm editTask"><i class="fas fa-pencil-alt"></i></button>
+				        <button class="btn btn-sm deleteTask"><i class="far fa-trash-alt"></i></button>
+					</div>
 				</div>
-				<div>
-					<%= link_to edit_post_path(post), class: 'btn btn-sm' do %>
-					   <i class="fas fa-pencil-alt"></i>
-					<% end %>
-					<%= link_to post_path(post), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-sm' do %>
-						<i class="far fa-trash-alt"></i>
-					<% end %>
-				</div>
-			</div>
-		<% end %>
+			<% end %>
+		</div>
 	</div>
 <% end %>

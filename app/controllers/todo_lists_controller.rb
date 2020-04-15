@@ -1,5 +1,7 @@
 class TodoListsController < ApplicationController
+	before_action :authenticate_user!
+
 	def index
-		@categories = Category.all
+		@projects = current_user.projects.all
 	end
 end

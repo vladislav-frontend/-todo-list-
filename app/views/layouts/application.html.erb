@@ -9,10 +9,12 @@
   </head>
 
   <body>
-    <div class="app-title">
+    <div class="app-background"></div>
+
+    <header class="header">
       <h1>Simple ToDo Lists</h1>
       <p>From Ruby Garage</p>
-    </div>
+    </header>
 
     <% flash.each do |name, message| %>
       <div class="container text-center mt-4 mb-3">
@@ -22,18 +24,47 @@
       </div>
     <% end %>
 
-    <%= yield %>
+    <div class="container project-wrap">
+      <%= yield %>
+    </div>
 
-    <div class="app-add-button">
-      <%= link_to new_category_path, class: 'btn btn-lg' do %>
-         <i class="fas fa-plus"></i>
-         Add TODO List
+    <% if user_signed_in? %>
+      <div class="add-project-button">
+        <button class="btn btn-lg" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"></i> Add TODO List</button>
+      </div>
+    <% end %>
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add new project</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="addProjectInput" class="form-control" placeholder="Start typing here to create a project">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="addProjectButton" class="btn btn-secondary" data-dismiss="modal">Add project</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p><i class="far fa-copyright"></i> Ruby Garage 
+      <% if user_signed_in? %>
+        <%= current_user.email %>
+        <%= link_to destroy_user_session_path, method: :delete, title: 'Sign out', class: 'btn btn-lg' do %>
+           <i class="fas fa-sign-out-alt"></i>
+        <% end %>
+      <% else %>
+        <a title="Sign in" href="<%= new_user_session_path %>" class="btn btn-md"><i class="fas fa-sign-in-alt"></i></a> | <a title="Sign up" href="<%= new_user_registration_path %>" class="btn btn-md"><i class="fas fa-user-plus"></i></a>
       <% end %>
-    </div>
-
-    <div class="app-copy">
-      <p><i class="far fa-copyright"></i> Ruby Garage</p>
-    </div>
+      </p>
+    </footer>
 
   </body>
 </html>
