@@ -5,5 +5,5 @@ class User < ApplicationRecord
   has_many :tasks, through: :projects
   
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :confirmable, :validatable
+         :recoverable, :rememberable, :validatable
 end
