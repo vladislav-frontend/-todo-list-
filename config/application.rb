@@ -14,4 +14,6 @@ module Todolist
     config.time_zone = 'Kyiv'
     # config.i18n.default_locale = :ru
   end
+
+  config.assets.initialize_on_precompile = false
 end
