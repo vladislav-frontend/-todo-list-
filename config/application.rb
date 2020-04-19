@@ -13,7 +13,7 @@ module Todolist
     # -- all .rb files in that directory are automatically loaded.
     config.time_zone = 'Kyiv'
     # config.i18n.default_locale = :ru
-  end
 
-  config.assets.initialize_on_precompile = false
+	  config.assets.initialize_on_precompile = false
+  end
 end
