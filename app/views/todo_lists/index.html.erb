@@ -24,7 +24,7 @@
 
 		<div class="app-items-inner">
 			<% project.tasks.order(position: :asc).each do |task| %>
-				<div id="task-<%= task.id %>" class="project-body <%= 'isnt-time' if task.deadline&.to_date == Date.today %>">
+				<div id="task-<%= task.id %>" data-position="<%= task.position %>" class="project-body <%= 'isnt-time' if task.deadline&.to_date == Date.today %>">
 					<div>
 						<input type="checkbox" class="taskCheckbox" <%= 'checked' if task.checked %>>
 						<div class="d-flex">

@@ -108,9 +108,9 @@ $(document).ready(function() {
 
 	// TASKS SCRIPTS
 
-	function addTaskTemplate(id, title, project_id) {
+	function addTaskTemplate(id, title, project_id, position) {
 		var taskTemplate = `
-			<div id="task-${id}" class="project-body">
+			<div id="task-${id}" data-position="${position}" class="project-body">
 				<div>
 					<input type="checkbox" class="taskCheckbox">
 					<div class="d-flex">
@@ -137,21 +137,45 @@ $(document).ready(function() {
 		var projectID = $(event.target).parents(".project")[0].id;
 		var addTaskInput = $("#" + projectID + " .addTaskInput");
 		var addTaskName = addTaskInput.val();
+		var tasksBox = $("#" + projectID + " .project-body");
 
-		if (addTaskName) {
-			$.ajax({
-				type: "POST",
-				url: "/tasks",
-				data: {
-					project_id: projectID.replace(/\D+/, ''),
-					title: addTaskName
-				},
-		        success: function(data) {
-					addTaskInput.val("");
-					addTaskTemplate(data.id, data.title, data.project_id);
-				}
-			});
+		if (tasksBox.length) {
+			var lastTask = tasksBox.last();
+			var lastTaskPosition = lastTask.attr('data-position');
+
+			if (addTaskName) {
+				$.ajax({
+					type: "POST",
+					url: "/tasks",
+					data: {
+						project_id: projectID.replace(/\D+/, ''),
+						position: parseInt(lastTaskPosition) + 1,
+						title: addTaskName
+					},
+			        success: function(data) {
+						addTaskInput.val("");
+						addTaskTemplate(data.id, data.title, data.project_id, data.position);
+					}
+				});
+			}
+		} else {
+			if (addTaskName) {
+				$.ajax({
+					type: "POST",
+					url: "/tasks",
+					data: {
+						project_id: projectID.replace(/\D+/, ''),
+						position: 1,
+						title: addTaskName
+					},
+			        success: function(data) {
+						addTaskInput.val("");
+						addTaskTemplate(data.id, data.title, data.project_id, data.position);
+					}
+				});
+			}
 		}
+
 	});
 
 	$(document).on("click", ".editTask", function(event) {
@@ -267,19 +291,73 @@ $(document).ready(function() {
 
 	$(document).on("click", ".upTask", function(event) {
 		var taskID = $(event.target).parents(".project-body")[0].id;
-		console.log(taskID);
-		// var taskDateInput = $("#" + taskID + " .task-date");
+		var taskBox = $("#" + taskID);
+		var prevTaskBox = taskBox.prev();
 
-		// $.ajax({
-		// 	type: "PUT",
-		// 	url: "/tasks/" + taskID.replace(/\D+/, ''),
-		// 	data: {
-		// 		deadline: taskDate
-		// 	},
-	 //        success: function(data) {
-		// 		console.log(data.deadline);
-		// 		taskDateInput.removeClass("task-date-show");
-	 //        }
-		// });
+		if (prevTaskBox.length) {
+			var prevTaskID = prevTaskBox[0].id.replace(/\D+/, '');
+			var prevTaskPosition = prevTaskBox.attr('data-position');
+			prevTaskBox.before(taskBox);
+
+			$.ajax({
+				type: "PUT",
+				url: "/tasks/" + taskID.replace(/\D+/, ''),
+				data: {
+					position: parseInt(prevTaskPosition)
+				},
+		        success: function(data) {
+		        	taskBox.attr('data-position', data.position);
+		        }
+			});
+
+			$.ajax({
+				type: "PUT",
+				url: "/tasks/" + prevTaskID.replace(/\D+/, ''),
+				data: {
+					position: parseInt(prevTaskPosition) + 1
+				},
+		        success: function(data) {
+		        	prevTaskBox.attr('data-position', data.position);
+		        }
+			});
+		} else {
+			console.log('end');
+		}
+	});
+
+	$(document).on("click", ".downTask", function(event) {
+		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskBox = $("#" + taskID);
+		var nextTaskBox = taskBox.next();
+
+		if (nextTaskBox.length) {
+			var nextTaskID = nextTaskBox[0].id.replace(/\D+/, '');
+			var nextTaskPosition = nextTaskBox.attr('data-position');
+			nextTaskBox.after(taskBox);
+
+			$.ajax({
+				type: "PUT",
+				url: "/tasks/" + taskID.replace(/\D+/, ''),
+				data: {
+					position: parseInt(nextTaskPosition)
+				},
+		        success: function(data) {
+		        	taskBox.attr('data-position', data.position);
+		        }
+			});
+
+			$.ajax({
+				type: "PUT",
+				url: "/tasks/" + nextTaskID.replace(/\D+/, ''),
+				data: {
+					position: parseInt(nextTaskPosition) - 1
+				},
+		        success: function(data) {
+		        	nextTaskBox.attr('data-position', data.position);
+		        }
+			});
+		} else {
+			console.log('end');
+		}
 	});
 });
