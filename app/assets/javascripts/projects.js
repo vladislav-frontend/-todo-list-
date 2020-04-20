@@ -1,4 +1,4 @@
-$(document).ready(function() {
+
 	function addProjectTemplate(id, name) {
 		var projectTemplate = `
 			<div id="project-${id}" class="project">
@@ -107,4 +107,3 @@ $(document).ready(function() {
 	        }
 		});
 	});
-});

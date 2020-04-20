@@ -1,4 +1,4 @@
-$(document).ready(function() {
+
 	function addTaskTemplate(id, title, project_id, position) {
 		var taskTemplate = `
 			<div id="task-${id}" data-position="${position}" class="task">
@@ -256,4 +256,3 @@ $(document).ready(function() {
 			alert("It isn't possible to lower the position of task");
 		}
 	});
-});
