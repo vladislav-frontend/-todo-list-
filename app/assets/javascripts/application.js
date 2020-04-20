@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require './projects.js'
+//= require './tasks.js'
 //= require bootstrap-sprockets
 //= require ./fontawesome-5.11.1.js
