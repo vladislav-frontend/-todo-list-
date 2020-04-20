@@ -1,116 +1,7 @@
 $(document).ready(function() {
-
-	// PROJECTS SCRIPTS
-
-	function addProjectTemplate(id, name) {
-		var projectTemplate = `
-			<div id="project-${id}" class="project">
-				<div class="project-title">
-					<div>
-						<i class="fas fa-tasks"></i>
-						<div class="d-flex">
-							<input type="text" class="editProjectInput">
-							<button class="btn btn-sm editProjectButton"><i class="fas fa-check"></i></button>
-							<button class="btn btn-sm closeProjectButton"><i class="fas fa-times"></i></button>
-						</div>
-						<span class="projectName">${name}</span>
-					</div>
-					<div>
-				        <button class="btn btn-sm editProject"><i class="fas fa-pencil-alt"></i></button>
-				        <button class="btn btn-sm deleteProject"><i class="far fa-trash-alt"></i></button>
-					</div>
-				</div>
-
-				<div class="project-add">
-					<i class="fas fa-plus"></i>
-					<input type="text" class="addTaskInput" placeholder="Start typing here to create a task">
-			        <button class="addTaskButton" class="btn">Add Task</button>
-				</div>
-
-				<div class="app-items-inner">
-				</div>
-			</div>
-		`;
-		$(".project-wrap").append(projectTemplate);
-	}
-
-	$("#addProjectButton").click(function() {
-		var addProjectName = $("#addProjectInput").val();
-
-		if (addProjectName) {
-			$.ajax({
-				type: "POST",
-				url: "/projects",
-				data: {
-					name: addProjectName
-				},
-		        success: function(data) {
-					$("#addProjectInput").val("");
-					addProjectTemplate(data.id, data.name);
-				}
-			});
-		}
-	});
-
-	$(document).on("click", ".editProject", function(event) {
-		var projectID = $(event.target).parents(".project")[0].id;
-		var editProjectInput = $("#" + projectID + " .editProjectInput");
-		var editProjectButton = $("#" + projectID + " .editProjectButton");
-		var closeProjectButton = $("#" + projectID + " .closeProjectButton");
-		var projectName = $("#" + projectID + " .projectName");
-		projectName.css("display", "none");
-		editProjectInput.css("display", "block");
-		editProjectButton.css("display", "block");
-		closeProjectButton.css("display", "block");
-
-		editProjectButton.click(function(event) {
-			var editProjectName = editProjectInput.val();
-
-			if (editProjectName) {
-				$.ajax({
-					type: "PUT",
-					url: "/projects/" + projectID.replace(/\D+/, ''),
-					data: {
-						name: editProjectName
-					},
-			        success: function(data) {
-						projectName.css("display", "block");
-						editProjectInput.css("display", "none");
-						editProjectButton.css("display", "none");
-						closeProjectButton.css("display", "none");
-						projectName.text(data.name);
-			        }
-				});
-			}
-		});
-
-		closeProjectButton.click(function() {
-			projectName.css("display", "block");
-			editProjectInput.css("display", "none");
-			editProjectButton.css("display", "none");
-			closeProjectButton.css("display", "none");
-		});
-	});
-
-	$(document).on("click", ".deleteProject", function(event) {
-		var projectID = $(event.target).parents(".project")[0].id;
-		var projectBox = $("#" + projectID);
-
-		$.ajax({
-			type: "DELETE",
-			url: "/projects/" + projectID.replace(/\D+/, ''),
-	        success: function(data) {
-				projectBox.remove();
-	        }
-		});
-	});
-
-
-	// TASKS SCRIPTS
-
 	function addTaskTemplate(id, title, project_id, position) {
 		var taskTemplate = `
-			<div id="task-${id}" data-position="${position}" class="project-body">
+			<div id="task-${id}" data-position="${position}" class="task">
 				<div>
 					<input type="checkbox" class="taskCheckbox">
 					<div class="d-flex">
@@ -130,20 +21,20 @@ $(document).ready(function() {
 				</div>
 			</div>
 		`;
-		$("#project-" + project_id + " .app-items-inner").append(taskTemplate);
+		$("#project-" + project_id + " .project-body").append(taskTemplate);
 	}
 
 	$(document).on("click", ".addTaskButton", function(event) {
 		var projectID = $(event.target).parents(".project")[0].id;
 		var addTaskInput = $("#" + projectID + " .addTaskInput");
 		var addTaskName = addTaskInput.val();
-		var tasksBox = $("#" + projectID + " .project-body");
+		var tasksBox = $("#" + projectID + " .task");
 
 		if (tasksBox.length) {
 			var lastTask = tasksBox.last();
 			var lastTaskPosition = lastTask.attr('data-position');
 
-			if (addTaskName) {
+			if (addTaskName.length > 2 && addTaskName.length < 21) {
 				$.ajax({
 					type: "POST",
 					url: "/tasks",
@@ -157,9 +48,11 @@ $(document).ready(function() {
 						addTaskTemplate(data.id, data.title, data.project_id, data.position);
 					}
 				});
+			} else {
+				alert("Task name is not correct");
 			}
 		} else {
-			if (addTaskName) {
+			if (addTaskName.length > 2 && addTaskName.length < 21) {
 				$.ajax({
 					type: "POST",
 					url: "/tasks",
@@ -173,6 +66,8 @@ $(document).ready(function() {
 						addTaskTemplate(data.id, data.title, data.project_id, data.position);
 					}
 				});
+			} else {
+				alert("Task name is not correct");
 			}
 		}
 
@@ -180,7 +75,7 @@ $(document).ready(function() {
 
 	$(document).on("click", ".editTask", function(event) {
 		var projectID = $(event.target).parents(".project")[0].id;
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		var editTaskInput = $("#" + taskID + " .editTaskInput");
 		var editTaskButton = $("#" + taskID + " .editTaskButton");
 		var closeTaskButton = $("#" + taskID + " .closeTaskButton");
@@ -193,7 +88,7 @@ $(document).ready(function() {
 		editTaskButton.click(function(event) {
 			var editTaskName = editTaskInput.val();
 
-			if (editTaskName) {
+			if (editTaskName.length > 2 && editTaskName.length < 21) {
 				$.ajax({
 					type: "PUT",
 					url: "/tasks/" + taskID.replace(/\D+/, ''),
@@ -208,6 +103,8 @@ $(document).ready(function() {
 						taskName.text(data.title);
 			        }
 				});
+			} else {
+				alert("Task name is not correct");
 			}
 		});
 
@@ -221,7 +118,7 @@ $(document).ready(function() {
 
 	$(document).on("click", ".deleteTask", function(event) {
 		var projectID = $(event.target).parents(".project")[0].id;
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		var taskBox = $("#" + taskID);
 
 		$.ajax({
@@ -234,7 +131,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on("change", ".taskCheckbox", function(event) {
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		var taskNameChecked = $("#" + taskID + " .taskName");
 
 		if ($(event.target)[0].checked) {
@@ -263,7 +160,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on("click", ".dateTask", function(event) {
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		if ($("#" + taskID + " .task-date").hasClass("task-date-show")) {
 			$("#" + taskID + " .task-date").removeClass("task-date-show");
 		} else {
@@ -272,7 +169,7 @@ $(document).ready(function() {
 	});
 
 	$(document).on("change", ".task-date", function(event) {
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		var taskDateInput = $("#" + taskID + " .task-date");
 		var taskDate = new Date(taskDateInput.val());
 
@@ -283,14 +180,13 @@ $(document).ready(function() {
 				deadline: taskDate
 			},
 	        success: function(data) {
-				console.log(data.deadline);
 				taskDateInput.removeClass("task-date-show");
 	        }
 		});
 	});
 
 	$(document).on("click", ".upTask", function(event) {
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		var taskBox = $("#" + taskID);
 		var prevTaskBox = taskBox.prev();
 
@@ -321,12 +217,12 @@ $(document).ready(function() {
 		        }
 			});
 		} else {
-			console.log('end');
+			alert("It isn't possible to increase the position of task");
 		}
 	});
 
 	$(document).on("click", ".downTask", function(event) {
-		var taskID = $(event.target).parents(".project-body")[0].id;
+		var taskID = $(event.target).parents(".task")[0].id;
 		var taskBox = $("#" + taskID);
 		var nextTaskBox = taskBox.next();
 
@@ -357,7 +253,7 @@ $(document).ready(function() {
 		        }
 			});
 		} else {
-			console.log('end');
+			alert("It isn't possible to lower the position of task");
 		}
 	});
 });

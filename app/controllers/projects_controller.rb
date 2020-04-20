@@ -7,12 +7,16 @@ class ProjectsController < ApplicationController
 
 		if @project.save
 			render json: @project
+		else
+			render json: @project.errors, status: 422
 		end
 	end
 
 	def update
-		if @project.update_attributes(project_params)
+		if @project.update(project_params)
 			render json: @project
+		else
+			render json: @project.errors, status: 422
 		end
 	end
 

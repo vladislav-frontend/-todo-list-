@@ -9,12 +9,16 @@ class TasksController < ApplicationController
 
 		if @task.save
 			render json: @task
+		else
+			render json: @task.errors, status: 422
 		end
 	end
 
 	def update
-		if @task.update_attributes(task_params)
+		if @task.update(task_params)
 			render json: @task
+		else
+			render json: @task.errors, status: 422
 		end
 	end
 
