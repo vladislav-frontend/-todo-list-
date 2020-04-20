@@ -1,49 +1,49 @@
 <% @projects.each_with_index do |project, index| %>
-	<div id="project-<%= project.id %>" class="project">
-		<div class="project-title">
-			<div>
-				<i class="fas fa-tasks"></i>
-				<div class="d-flex">
-					<input type="text" class="editProjectInput">
-					<button class="btn btn-sm editProjectButton"><i class="fas fa-check"></i></button>
-					<button class="btn btn-sm closeProjectButton"><i class="fas fa-times"></i></button>
-				</div>
-				<span class="projectName"><%= project.name %></span>
-			</div>
-			<div>
+  <div id="project-<%= project.id %>" class="project">
+    <div class="project-title">
+      <div>
+        <i class="fas fa-tasks"></i>
+        <div class="d-flex">
+          <input type="text" class="editProjectInput">
+          <button class="btn btn-sm editProjectButton"><i class="fas fa-check"></i></button>
+          <button class="btn btn-sm closeProjectButton"><i class="fas fa-times"></i></button>
+        </div>
+        <span class="projectName"><%= project.name %></span>
+      </div>
+      <div>
         <button class="btn btn-sm editProject"><i class="fas fa-pencil-alt"></i></button>
         <button class="btn btn-sm deleteProject"><i class="far fa-trash-alt"></i></button>
-			</div>
-		</div>
+      </div>
+    </div>
 
-		<div class="project-add">
-			<i class="fas fa-plus"></i>
-			<input type="text" class="addTaskInput" placeholder="Start typing here to create a task">
+    <div class="project-add">
+      <i class="fas fa-plus"></i>
+      <input type="text" class="addTaskInput" placeholder="Start typing here to create a task">
       <button class="addTaskButton" class="btn">Add Task</button>
-		</div>
+    </div>
 
-		<div class="project-body">
-			<% project.tasks.order(position: :asc).each do |task| %>
-				<div id="task-<%= task.id %>" data-position="<%= task.position %>" class="task <%= 'isnt-time' if task.deadline&.to_date == Date.today %>">
-					<div>
-						<input type="checkbox" class="taskCheckbox" <%= 'checked' if task.checked %>>
-						<div class="d-flex">
-							<input type="text" class="editTaskInput">
-							<button class="btn btn-sm editTaskButton"><i class="fas fa-check"></i></button>
-							<button class="btn btn-sm closeTaskButton"><i class="fas fa-times"></i></button>
-						</div>
-						<span class="taskName <%= 'task-name-checked' if task.checked %>"><%= task.title %></span>
-					</div>
-					<input type="date" class="task-date" value="<%= task.deadline&.to_date %>">
-					<div>
-		        <button class="btn btn-sm dateTask"><i class="far fa-clock"></i></button>
-		        <button class="btn btn-sm upTask"><i class="fas fa-caret-up"></i></button>
-		        <button class="btn btn-sm downTask"><i class="fas fa-caret-down"></i></button>
-		        <button class="btn btn-sm editTask"><i class="fas fa-pencil-alt"></i></button>
-		        <button class="btn btn-sm deleteTask"><i class="far fa-trash-alt"></i></button>
-					</div>
-				</div>
-			<% end %>
-		</div>
-	</div>
+    <div class="project-body">
+      <% project.tasks.order(position: :asc).each do |task| %>
+        <div id="task-<%= task.id %>" data-position="<%= task.position %>" class="task <%= 'isnt-time' if task.deadline&.to_date == Date.today %>">
+          <div>
+            <input type="checkbox" class="taskCheckbox" <%= 'checked' if task.checked %>>
+            <div class="d-flex">
+              <input type="text" class="editTaskInput">
+              <button class="btn btn-sm editTaskButton"><i class="fas fa-check"></i></button>
+              <button class="btn btn-sm closeTaskButton"><i class="fas fa-times"></i></button>
+            </div>
+            <span class="taskName <%= 'task-name-checked' if task.checked %>"><%= task.title %></span>
+          </div>
+          <input type="date" class="task-date" value="<%= task.deadline&.to_date %>">
+          <div>
+            <button class="btn btn-sm dateTask"><i class="far fa-clock"></i></button>
+            <button class="btn btn-sm upTask"><i class="fas fa-caret-up"></i></button>
+            <button class="btn btn-sm downTask"><i class="fas fa-caret-down"></i></button>
+            <button class="btn btn-sm editTask"><i class="fas fa-pencil-alt"></i></button>
+            <button class="btn btn-sm deleteTask"><i class="far fa-trash-alt"></i></button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 <% end %>
