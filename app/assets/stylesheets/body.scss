@@ -9,12 +9,12 @@ body {
 	left: 0;
 	right: 0;
 	bottom: 0;
-    background-color: #d3d2c2;
-    background-image: -webkit-linear-gradient(bottom,#d3d2c2 60%,#d2a829 100%);
-    background-image: -o-linear-gradient(bottom,#d3d2c2 60%,#d2a829 100%);
-    background-image: -webkit-gradient(linear,top,bottom,from(#d3d2c2),to(#d2a829));
-    background-image: linear-gradient(to bottom, #d3d2c2 60%, #d2a829 100%);
-    z-index: -1;
+  background-color: #d3d2c2;
+  background-image: -webkit-linear-gradient(bottom,#d3d2c2 60%,#d2a829 100%);
+  background-image: -o-linear-gradient(bottom,#d3d2c2 60%,#d2a829 100%);
+  background-image: -webkit-gradient(linear,top,bottom,from(#d3d2c2),to(#d2a829));
+  background-image: linear-gradient(to bottom, #d3d2c2 60%, #d2a829 100%);
+  z-index: -1;
 }
 
 .header {
