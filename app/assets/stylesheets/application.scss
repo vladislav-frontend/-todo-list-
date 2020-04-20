@@ -10,52 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  */
 @import "bootstrap";
-
-body {
-	padding-top: 60px;
-	color: #444;
-}
-
-.app-background {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-    background-color: #d3d2c2;
-    background-image: -webkit-linear-gradient(bottom,#d3d2c2 60%,#d2a829 100%);
-    background-image: -o-linear-gradient(bottom,#d3d2c2 60%,#d2a829 100%);
-    background-image: -webkit-gradient(linear,top,bottom,from(#d3d2c2),to(#d2a829));
-    background-image: linear-gradient(to bottom, #d3d2c2 60%, #d2a829 100%);
-    z-index: -1;
-}
-
-.header {
-	margin-bottom: 30px;
-	text-transform: uppercase;
-	text-align: center;
-	text-shadow: 0 1px 1px #fff;
-
-	h1 {
-		font-weight: bold;
-	}
-
-	p {
-		font-size: 1.2em;
-	}
-}
-
-.footer {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #f9f9f9;
-
-	button, a {
-		color: #fff;
-	}
-}
+@import "./body.scss";
+@import "./projects.scss";
+@import "./tasks.scss";
