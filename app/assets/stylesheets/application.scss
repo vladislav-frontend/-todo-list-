@@ -254,30 +254,30 @@ body {
 			color: #444;
 		}
 	}
-}
 
-.task-name-checked {
-	text-decoration: line-through;
-}
+	.task-name-checked {
+		text-decoration: line-through;
+	}
 
-.task-date {
-	display: none;
-	position: absolute;
-	top: 50%;
-	right: 230px;
-	transform: translateY(-50%);
-	z-index: 1;
-    outline: none;
-	color: #888;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #ccc;
-	appearance: none;
-	-webkit-appearance: none;
-}
+	.task-date {
+		display: none;
+		position: absolute;
+		top: 50%;
+		right: 230px;
+		transform: translateY(-50%);
+		z-index: 1;
+	    outline: none;
+		color: #888;
+	    background: transparent;
+	    border: none;
+	    border-bottom: 1px solid #ccc;
+		appearance: none;
+		-webkit-appearance: none;
+	}
 
-.task-date-show {
-	display: block;
+	.task-date-show {
+		display: block;
+	}
 }
 
 .isnt-time {
